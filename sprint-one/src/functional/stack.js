@@ -15,7 +15,10 @@ var Stack = function() {
     if (count > 0) {
       count--;
     }
-    return storage[count];
+
+    var results = storage[count];
+    delete storage[count];
+    return results;
   };
 
   someInstance.size = function() {
