@@ -13,7 +13,8 @@ var Stack = function() {
 
 var stackMethods = {};
 
-stackMethods.push = function() {
+stackMethods.push = function(value) {
+  this[this.currentSize] = value;
   this.currentSize++;
 };
 
@@ -22,6 +23,9 @@ stackMethods.pop = function() {
     this.currentSize--;
   }
 
+  var results = this[this.currentSize];
+  delete this[this.currentSize];
+  return results;
 };
 
 stackMethods.size = function() {
