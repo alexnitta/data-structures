@@ -6,14 +6,13 @@ var Queue = function() {
   storage.count = 0;
   storage.lastKey = 0;
 
-  storage.enqueue = queueMethods.enqueue;
-  storage.dequeue = queueMethods.dequeue;
-  storage.size = queueMethods.size;
+  _.extend(storage, queueMethods);
 
   return storage;
 };
 
 var queueMethods = {};
+
 queueMethods.enqueue = function (value) {
   this.currentSize++;
   this.count++;
