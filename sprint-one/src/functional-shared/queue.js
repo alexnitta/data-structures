@@ -16,10 +16,21 @@ var Queue = function() {
 var queueMethods = {};
 queueMethods.enqueue = function (value) {
   this.currentSize++;
+  this.count++;
+  this[this.count] = value;
 };
-queueMethods.dequeue = function () {
 
+queueMethods.dequeue = function () {
+  if (this.currentSize > 0) {
+    this.currentSize--;
+  }
+
+  this.lastKey++;
+  var result = this[this.lastKey];
+  delete this[this.lastKey];
+  return result;
 };
+
 queueMethods.size = function () {
   return this.currentSize;
 };
