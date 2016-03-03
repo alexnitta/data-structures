@@ -3,14 +3,19 @@ var Queue = function() {
 
   // Use an object with numeric keys to store values
   var storage = {};
+  // var size that will fluctuate with number of items in storage
   var size = 0;
+  // var count will always go up to give a numerical key for each added
   var count = 0;
+  // this variable will remember the last thing that was 
+  // dequeued and we start with the first item
+  var lastKey = 0;
 
   // Implement the methods below
 
   someInstance.enqueue = function(value) {
-    storage[count] = value;
     count++;
+    storage[count] = value;
     size++;
   };
 
@@ -18,18 +23,11 @@ var Queue = function() {
     if (size > 0) {
       size--;
     }
-    count--;
 
-    var lowest = count + 1;
-
-    for (var key in storage) {
-      if (key < lowest) {
-        lowest = key;
-      }
-    }
-
-    return storage[lowest];
-    return storage[size];
+    // first key dequeued will be 1, so we will increment by 1
+    // every time we want to use the dequeue function.
+    lastKey++;
+    return storage[lastKey];
   };
 
   someInstance.size = function() {
@@ -39,5 +37,5 @@ var Queue = function() {
   return someInstance;
 };
 
-// 0: val1, 1: val2, 2: val3
+
 
