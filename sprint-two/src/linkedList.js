@@ -2,21 +2,31 @@ var LinkedList = function() {
   var list = {};
   list.head = null;
   list.tail = null;
-  list.lastAdded = null;
 
   list.addToTail = function(value) {
-    
-    list[value] = Node(value);
-    if (lastAdded) {
-      list[lastAdded].next = value;
+    var myNode = Node(value);
+    if (list.head === null) {
+      list.head = myNode;
+      list.tail = myNode;
     }
-    list.tail = list[value];
-    list.lastAdded = value;
 
+    var nextDive = function (thisTail) {
+      if (thisTail.next === null) {
+        thisTail.next = myNode;
+      } else {
+        nextDive(thisTail.next);
+      }
+    };
+
+    if (myNode !== list.tail) {
+      nextDive(list.tail);
+    }
   };
 
   list.removeHead = function() {
-
+    var results = list.head;
+    delete list.head;
+    return results;
   };
 
   list.contains = function(target) {
@@ -37,3 +47,6 @@ var Node = function(value) {
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+
+
+// list.head.next = 
