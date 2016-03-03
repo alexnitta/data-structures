@@ -7,7 +7,7 @@ var Queue = function() {
   var size = 0;
   // var count will always go up to give a numerical key for each added
   var count = 0;
-  // this variable will remember the last thing that was 
+  // lastKey variable will remember the last thing that was 
   // dequeued and we start with the first item
   var lastKey = 0;
 
@@ -27,7 +27,10 @@ var Queue = function() {
     // first key dequeued will be 1, so we will increment by 1
     // every time we want to use the dequeue function.
     lastKey++;
-    return storage[lastKey];
+
+    var results = storage[lastKey];
+    delete storage[lastKey];
+    return results;
   };
 
   someInstance.size = function() {
