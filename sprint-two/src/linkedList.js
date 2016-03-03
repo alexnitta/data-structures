@@ -2,11 +2,21 @@ var LinkedList = function() {
   var list = {};
   list.head = null;
   list.tail = null;
+  list.lastAdded = null;
 
   list.addToTail = function(value) {
+    
+    list[value] = Node(value);
+    if (lastAdded) {
+      list[lastAdded].next = value;
+    }
+    list.tail = list[value];
+    list.lastAdded = value;
+
   };
 
   list.removeHead = function() {
+
   };
 
   list.contains = function(target) {
