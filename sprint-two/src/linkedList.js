@@ -7,29 +7,34 @@ var LinkedList = function() {
     var myNode = Node(value);
     if (list.head === null) {
       list.head = myNode;
-      list.tail = myNode;
     }
+    list.tail = myNode;
 
-    var nextDive = function (thisTail) {
-      if (thisTail.next === null) {
-        thisTail.next = myNode;
+    // use recursion to find the object whose .next property = null
+    var findNull = function (obj) {
+      if (obj.next !== null) {
+        findNull(obj.next);
       } else {
-        nextDive(thisTail.next);
+        obj.next = list.tail;
       }
     };
-
-    if (myNode !== list.tail) {
-      nextDive(list.tail);
+    // set list.tail to this object
+    if (list.head !== list.tail) {
+      findNull(list.head);
     }
+
   };
 
   list.removeHead = function() {
     var results = list.head;
     delete list.head;
-    return results;
+    console.log(results.next);
+    list.head = results.next;
+    return results.value;
   };
 
   list.contains = function(target) {
+
   };
 
   return list;
@@ -48,5 +53,3 @@ var Node = function(value) {
  * Complexity: What is the time complexity of the above functions?
  */
 
-
-// list.head.next = 
