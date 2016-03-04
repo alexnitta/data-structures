@@ -5,36 +5,49 @@ var LinkedList = function() {
 
   list.addToTail = function(value) {
     var myNode = Node(value);
-    if (list.head === null) {
+    var current = list.head;
+    var tail = list.tail;
+
+    if (current === null) {
       list.head = myNode;
-    }
-    list.tail = myNode;
-
-    // use recursion to find the object whose .next property = null
-    var findNull = function (obj) {
-      if (obj.next !== null) {
-        findNull(obj.next);
-      } else {
-        obj.next = list.tail;
+    } else {
+      while (current.next) {
+        current = current.next;
       }
-    };
-    // set list.tail to this object
-    if (list.head !== list.tail) {
-      findNull(list.head);
+
+      current.next = myNode;
     }
 
+    list.tail = myNode;
   };
 
   list.removeHead = function() {
     var results = list.head;
     delete list.head;
-    console.log(results.next);
     list.head = results.next;
     return results.value;
   };
 
-  list.contains = function(target) {
+  list.contains = function(target) { 
 
+    var current = list.head;
+
+
+
+    while (current.next) {
+      if (current.value === target) {
+        return true;
+      } else {
+        current = current.next;
+      }
+    }
+
+    if (current.value === target) {
+      return true;
+    } else {
+      return false;
+    }
+    
   };
 
   return list;
