@@ -3,6 +3,7 @@
 // ------------------------
 // Instantiate a new graph
 var Graph = function() {
+
 };
 
 // ------------------------
@@ -40,9 +41,11 @@ Graph.prototype.hasEdge = function(fromNode, toNode) {
 Graph.prototype.addEdge = function(fromNode, toNode) {
 
 // START HERE?
-
+  if (fromNode === toNode) {
+    this[toNode] = fromNode;
+  }
+    
   this[fromNode] = toNode;
-  this[toNode] = fromNode;
 
 };
 
