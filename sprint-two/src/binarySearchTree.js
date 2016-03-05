@@ -6,69 +6,96 @@ var BinarySearchTree = function(value) {
   tree.right = null;
 
   return tree; 
-
 };
 
 bstMethods = {};
 
-bstMethods.insert = function (value) {
+bstMethods.insert = function (value) { /*Time Complexity - Logarithmic - O(log(n))*/
   var newTree = BinarySearchTree(value);
 
-  var binaryDig = function (node) {
+  var binaryInsert = function (node) {
     if (node.value > value) {
       if (node.left === null) {
         node.left = newTree;
       } else {
-        binaryDig(node.left);
+        binaryInsert(node.left);
       }
     } else {
       if (node.right === null) {
         node.right = newTree;
       } else {
-        binaryDig(node.right);
+        binaryInsert(node.right);
       }
     }
   };
 
-  binaryDig(this);
+  binaryInsert(this);
 };
 
-bstMethods.contains = function (target) {
-
-  var targetDig = function (node) {
+bstMethods.contains = function (target) { /*Time Complexity - Logarithmic - O(log(n))*/
+  var binaryContains = function (node) {
     if (node.value === target) {
       return true;
     }
 
     if (target > node.value && node.right) {
-      return targetDig(node.right);
+      return binaryContains(node.right);
     } else if (node.left) {
-      return targetDig(node.left);
+      return binaryContains(node.left);
     }
 
     return false;
   };
 
-  return targetDig(this);
-
+  return binaryContains(this);
 };
 
-bstMethods.depthFirstLog = function (callback) {
-
-  var callbackDig = function (node) {
+bstMethods.depthFirstLog = function (callback) { /*Time Complexity - Linear - O(n)*/
+  var binaryEach = function (node) {
     callback(node.value);
     if (node.left) {
-      callbackDig(node.left);
+      binaryEach(node.left);
     }
 
     if (node.right) {
-      callbackDig(node.right);
+      binaryEach(node.right);
     }
   };
 
-  callbackDig(this);
-
+  binaryEach(this);
 };
+
+// Use case: Given a list of a million numbers, write a function that 
+// takes a new number and returns the closest number in the list 
+// using your BST. Profile this against the same operation using an array.
+
+/* var result = null;
+
+var closest = function (value, target) {
+  if (target === value) {
+    result = target;
+  }
+
+  if (Math.abs(result - target) > Math.abs(value - target)) {
+    result = value;
+  }
+};
+
+var binarySearchTree = BinarySearchTree(5);
+
+binarySearchTree.insert(2);
+binarySearchTree.insert(3);
+binarySearchTree.insert(7);
+binarySearchTree.insert(6);
+binarySearchTree.insert(8);
+
+binarySearchTree.depthFirstLog(function (value) {
+  return closest(value, 8);
+});
+
+console.log(result);
+*/
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */
