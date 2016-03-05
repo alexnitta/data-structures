@@ -3,7 +3,7 @@ var LinkedList = function() {
   list.head = null;
   list.tail = null;
 
-  list.addToTail = function(value) {
+  list.addToTail = function(value) { /*Time Complexity - Linear - O(n)*/
     // create myNode var for Node to add to end of head
     var myNode = Node(value);
     // var starts at list.head, and we will dig deeper with while loop
@@ -28,7 +28,7 @@ var LinkedList = function() {
     list.tail = myNode;
   };
 
-  list.removeHead = function() {
+  list.removeHead = function() { /*Time Complexity - Constant - O(1)*/
     // storing current list.head as current
     var current = list.head;
     // replacing list.head with it's value from next
@@ -37,7 +37,7 @@ var LinkedList = function() {
     return current.value;
   };
 
-  list.contains = function(target) {
+  list.contains = function(target) { /*Time Complexity - Linear - O(n)*/
     // storing current list.head as current
     var current = list.head;
 
@@ -75,5 +75,6 @@ var Node = function(value) {
 
 /*
  * Complexity: What is the time complexity of the above functions?
+
  */
 
