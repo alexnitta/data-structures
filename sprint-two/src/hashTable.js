@@ -8,26 +8,38 @@ var HashTable = function() {
 HashTable.prototype.insert = function(key, value) {
   // generates index spot to put in this.storage
   var index = getIndexBelowMaxForKey(key, this._limit);
-  var activeBucket = this._storage.get(index);
 
-  if (activeBucket !== undefined) {
+  // this is the bucket we want to add to, as designated by the index we got from hash function
+  var currentBucket = this._storage.get(index);
 
-    var overWrite = false;
-    
-    for (var i = 0; i < activeBucket.length; i++) {
-      if (activeBucket[i][0] === key) {
-        activeBucket[i][1] = value;
-        overWrite = true;
+  // if there is currently a bucket at this index
+  if (currentBucket !== undefined) {
+
+    // initialize var to track if there is a duplicate key
+    var duplicates = false;
+
+    // looping over active bucket, looking for duplicates
+    _.each(currentBucket, function(tuple) {
+      // if this tuple has a matching key,
+      if (tuple[0] === key) {
+        // overwrite the value
+        tuple[1] = value;
+        // set duplicates to true
+        duplicates = true;
       }
-    } 
+    });
     
-    if (!overWrite) {
-      activeBucket.push([key, value]);
+    // if no duplicates, add to currentBucket
+    if (!duplicates) {
+      currentBucket.push([key, value]);
     }
   
   } else {
+    // create a new bucket in this storage index
     var bucket = [];
+    // add tuple to bucket with key and value added
     bucket.push([key, value]);
+    // assigning storage at index to be bucket
     this._storage.set(index, bucket);
   }
 
@@ -35,33 +47,40 @@ HashTable.prototype.insert = function(key, value) {
 
 HashTable.prototype.retrieve = function(key) {
   var index = getIndexBelowMaxForKey(key, this._limit);
-  var bucket = this._storage.get(index);
+
+  // this is the bucket we want to retrieve from
+  var currentBucket = this._storage.get(index);
   
-  return _.reduce(bucket, function(foundValue, tuple) {
+  // iterate through currentBucket to retrieve first value that matches key
+  return _.reduce(currentBucket, function(foundValue, tuple) {
+    // if it has already been found
     if (foundValue !== undefined) {
+      // return that value that was found
       return foundValue;
     } 
 
+    // if we find a tuple with the same key
     if (tuple[0] === key) {
+      // remember this value as foundValue and return it after finishing iteration
       return tuple[1];
     }
-
+    // if not found, return undefined
   }, undefined);
 };
 
-// ^^ in retrieve ^^ our current problem: when we try to retrieve a value that was forced into 
-// index 0 by the oldHashFunction in the spec file, we will not find it
-// because our index var will be a real random hash
+HashTable.prototype.remove = function(key) {
+  var index = getIndexBelowMaxForKey(key, this._limit);
 
-
-HashTable.prototype.remove = function(k) {
-// generates index spot to that we'll be searching in to remove
-  var index = getIndexBelowMaxForKey(k, this._limit);
+  // Using LimitedArray method each to iterate through storage
   this._storage.each(function (item, i, storage) {
+    // Looping through storage until at the correct index 
     if (i === index) {
-      _.each(storage[index], function (tuples, i, tuplesCollection) {
-        if (tuples[0] === k) {
-          tuplesCollection.splice(i, 1);
+      // Loop through bucket
+      _.each(storage[index], function (tuples, i, bucket) {
+        // if we find tuple with same key we want to remove,
+        if (tuples[0] === key) {
+          // remove tuple from bucket
+          bucket.splice(i, 1);
         }
       });
     }
