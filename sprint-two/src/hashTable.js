@@ -5,7 +5,7 @@ var HashTable = function() {
   this._storage = LimitedArray(this._limit);
 };
 
-HashTable.prototype.insert = function(key, value) {
+HashTable.prototype.insert = function(key, value) { /*Time Complexity - Linear - O(n)*/
   // generates index spot to put in this.storage
   var index = getIndexBelowMaxForKey(key, this._limit);
 
@@ -45,7 +45,7 @@ HashTable.prototype.insert = function(key, value) {
 
 };
 
-HashTable.prototype.retrieve = function(key) {
+HashTable.prototype.retrieve = function(key) { /*Time Complexity - Linear - O(n)*/
   var index = getIndexBelowMaxForKey(key, this._limit);
 
   // this is the bucket we want to retrieve from
@@ -68,7 +68,7 @@ HashTable.prototype.retrieve = function(key) {
   }, undefined);
 };
 
-HashTable.prototype.remove = function(key) {
+HashTable.prototype.remove = function(key) { /*Time Complexity - Linear - O(n)*/
   var index = getIndexBelowMaxForKey(key, this._limit);
 
   // Using LimitedArray method each to iterate through storage
