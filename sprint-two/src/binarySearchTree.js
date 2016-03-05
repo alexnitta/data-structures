@@ -5,7 +5,7 @@ var BinarySearchTree = function(value) {
   tree.left = null;
   tree.right = null;
 
-  return tree;
+  return tree; 
 
 };
 
