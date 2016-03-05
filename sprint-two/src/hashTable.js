@@ -5,35 +5,54 @@ var HashTable = function() {
   this._storage = LimitedArray(this._limit);
 };
 
-HashTable.prototype.insert = function(k, v) {
+HashTable.prototype.insert = function(key, value) {
   // generates index spot to put in this.storage
-  var index = getIndexBelowMaxForKey(k, this._limit);
+  var index = getIndexBelowMaxForKey(key, this._limit);
+  var activeBucket = this._storage.get(index);
+
+  if (activeBucket !== undefined) {
+
+    var overWrite = false;
+    
+    for (var i = 0; i < activeBucket.length; i++) {
+      if (activeBucket[i][0] === key) {
+        activeBucket[i][1] = value;
+        overWrite = true;
+      }
+    } 
+    
+    if (!overWrite) {
+      activeBucket.push([key, value]);
+    }
   
-  if (Array.isArray(this._storage[index])) {
-    this.storage[index].push([k,v]);
   } else {
     var bucket = [];
-    bucket.push([k, v]);
+    bucket.push([key, value]);
     this._storage.set(index, bucket);
   }
 
 };
 
-HashTable.prototype.retrieve = function(k) {
-  // generates index spot to search in this.storage
-  var index = getIndexBelowMaxForKey(k, this._limit);
-  // var result = this._storage.get(index)[0][1];
-  var storageLocation = this._storage.get(index);
+HashTable.prototype.retrieve = function(key) {
+  var index = getIndexBelowMaxForKey(key, this._limit);
+  var bucket = this._storage.get(index);
   
-  var result;
-  
-  _.each(storageLocation, function(tuple, i, collection){
-    if(tuple[0] === k) {
-      result = tuple[1];
+  return _.reduce(bucket, function(foundValue, tuple) {
+    if (foundValue !== undefined) {
+      return foundValue;
+    } 
+
+    if (tuple[0] === key) {
+      return tuple[1];
     }
-  });
-  return result;
+
+  }, undefined);
 };
+
+// ^^ in retrieve ^^ our current problem: when we try to retrieve a value that was forced into 
+// index 0 by the oldHashFunction in the spec file, we will not find it
+// because our index var will be a real random hash
+
 
 HashTable.prototype.remove = function(k) {
 // generates index spot to that we'll be searching in to remove
