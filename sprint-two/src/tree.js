@@ -17,7 +17,7 @@ var Tree = function(value) {
 var treeMethods = {};
 
 // adds a node to this node's children array
-treeMethods.addChild = function(value) {
+treeMethods.addChild = function(value) { /*Time Complexity - Constant - O(1)*/
   
   // create new instance of tree
   var child = Tree(value);
@@ -26,7 +26,7 @@ treeMethods.addChild = function(value) {
   this.children.push(child);
 };
 
-treeMethods.contains = function(target) {
+treeMethods.contains = function(target) { /*Time Complexity - Quadratic - O(n^2)*/
 
   // if the root node contains the value, return true
   if (this.value === target) {
@@ -37,7 +37,7 @@ treeMethods.contains = function(target) {
   var wasFound = false;
 
   // recursively search through this.children for target = value
-  var searchChildren = function (childArr) {
+  var searchChildren = function (childArr) { 
 
     // loop through this collection of children
     _.each(childArr, function (item) {
