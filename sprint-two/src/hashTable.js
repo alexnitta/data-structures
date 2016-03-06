@@ -3,6 +3,7 @@
 var HashTable = function() {
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
+  this._size = 0;
 };
 
 HashTable.prototype.insert = function(key, value) { /*Time Complexity - Linear - O(n)*/
@@ -71,21 +72,24 @@ HashTable.prototype.retrieve = function(key) { /*Time Complexity - Linear - O(n)
 HashTable.prototype.remove = function(key) { /*Time Complexity - Linear - O(n)*/
   var index = getIndexBelowMaxForKey(key, this._limit);
 
-  // Using LimitedArray method each to iterate through storage
-  this._storage.each(function (item, i, storage) {
-    // Looping through storage until at the correct index 
-    if (i === index) {
-      // Loop through bucket
-      _.each(storage[index], function (tuples, i, bucket) {
-        // if we find tuple with same key we want to remove,
-        if (tuples[0] === key) {
-          // remove tuple from bucket
-          bucket.splice(i, 1);
-        }
-      });
+  // this is the bucket we want to search for the tuple to remove
+  var currentBucket = this._storage.get(index);
+
+  // loop through currentbucket to find...
+  _.each(currentBucket, function(tuple, i) {
+    // where tuple[0] is the same as the key we are looking to remove
+    if (tuple[0] === key) {
+      // store the value that we're removing
+      var result = tuple[1];
+      //remove this tuple from our hash table
+      currentBucket.splice(i, 1);
+      // return the removed value
+      return result;
     }
-   
   });
+
+  // return this in case the key is not found;
+  return undefined;
 };
 
 
