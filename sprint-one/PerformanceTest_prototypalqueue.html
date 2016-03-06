@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Prototypal Stack</title>
+</head>
+<body>
+<script src="./src/prototypal/stack.js"></script>
+
+<script src="../lib/underscore/underscore.js"></script>
+<script type="text/javascript">
+  var thisStack = Stack();
+  for (var i = 0; i < 15000000; i++) {
+    thisStack.push(Math.floor(Math.random() * 10) + 1)
+  }
+
+  for (var i = 0; i < 14999999; i++) {
+    thisStack.pop();
+  }
+  
+  for (var i = 0; i < 15000000; i++) {
+    thisStack.push(Math.floor(Math.random() * 10) + 1)
+  }
+
+  for (var i = 0; i < 14999999; i++) {
+    thisStack.pop();
+  }
+
+  console.log(thisStack.size());
+</script>
+
+</body>
+</html>
