@@ -7,11 +7,16 @@ var HashTable = function() {
 };
 
 HashTable.prototype.insert = function(key, value) { /*Time Complexity - Linear - O(n)*/
+
+
   // generates index spot to put in this.storage
   var index = getIndexBelowMaxForKey(key, this._limit);
 
   // this is the bucket we want to add to, as designated by the index we got from hash function
   var currentBucket = this._storage.get(index);
+
+  // increment size counter
+  this._size++;
 
   // if there is currently a bucket at this index
   if (currentBucket !== undefined) {
@@ -43,6 +48,9 @@ HashTable.prototype.insert = function(key, value) { /*Time Complexity - Linear -
     // assigning storage at index to be bucket
     this._storage.set(index, bucket);
   }
+
+
+  // if (this._size  )
 
 };
 
@@ -83,6 +91,8 @@ HashTable.prototype.remove = function(key) { /*Time Complexity - Linear - O(n)*/
       var result = tuple[1];
       //remove this tuple from our hash table
       currentBucket.splice(i, 1);
+      // decrement size counter
+      this._size--;
       // return the removed value
       return result;
     }
@@ -92,6 +102,9 @@ HashTable.prototype.remove = function(key) { /*Time Complexity - Linear - O(n)*/
   return undefined;
 };
 
+HashTable.prototype.resize = function() {
+  
+};
 
 
 /*
